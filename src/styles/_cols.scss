@@ -1,0 +1,32 @@
+@media screen and (max-width: 576px){
+  @for $i from 1 through 12 {
+    .col-#{$i} {
+      width: 100% / 12 * $i;
+    }
+  }
+}
+
+@media screen and (min-width: 768px) {
+  @for $i from 1 through 12 {
+    .col-md-#{$i} {
+      width: 100% / 12 * $i;
+    }
+  }
+}
+
+@media screen and (min-width: 992px) {
+  @for $i from 1 through 12 {
+    .col-lg-#{$i} {
+      width: 100% / 12 * $i;
+    }
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  @for $i from 1 through 12 {
+    .col-xl-#{$i} {
+      width: 100% / 12 * $i;
+      padding: 0 20px;
+    }
+  }
+}
