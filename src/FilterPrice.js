@@ -19,7 +19,7 @@ export default class FilterPrice extends Component {
         return (
             <div className="filter-price">
                 {['САМЫЙ ДЕШЕВЫЙ', 'САМЫЙ БЫСТРЫЙ'].map((item, i) =>
-                    <div className={`filter-price-item ${i === this.state.active ? 'active' : ''}`} onClick={() => this.changeStatus(i)}>
+                    <div className={`filter-price-item ${i === this.state.active ? 'active' : ''}`} onClick={() => this.changeStatus(i)} key={i}>
                         {item}
                     </div>
                 )}

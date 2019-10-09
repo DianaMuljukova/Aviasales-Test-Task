@@ -1,71 +1,32 @@
 import React, {Component} from 'react';
 
 export default class Ticket extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            searchId: null,
-            tickets: [],
-            stop: false
-        }
-    }
-
-
-    componentDidMount() {
-        this.getSearchId();
-    }
-
-    async getSearchId() {
-        let response = await fetch('https://front-test.beta.aviasales.ru/search');
-        let result = await response.json();
-
-        this.setState({
-            searchId: result.searchId
-        }, this.getTickets);
-    }
-
-    async getTickets () {
-        try {
-            let response = await fetch(`https://front-test.beta.aviasales.ru/tickets?searchId=${this.state.searchId}`);
-
-            let result = await response.json();
-            //console.log(result);
-            let oldTickets = [...this.state.tickets];
-            this.setState({
-                tickets: oldTickets.concat(result.tickets),
-                stop: result.stop
-            }, () => {
-                if (!this.state.stop) {
-                    this.getTickets()
-                }
-            });
-        } catch (e) {
-            this.getTickets();
-        }
-    }
 
     render() {
-        //console.log('tickets: ', this.state.tickets);
+        const {price, carrier, segments} = this.props;
+        let dateAway = new Date(Date.parse(segments[0].date));
+        let dateAwayDuration = new Date(+dateAway + segments[0].duration * 60000);
 
         return (
 
             <div className="ticket">
                 <div className="ticket-price-row">
                     <div className="ticket-price">
-                        13 400 Р
+                        {`${price} Р`}
                     </div>
                     <div className="ticket-img">
-                        картинка
+                       <img src={`//pics.avs.io/99/36/${carrier}.png`} />
                     </div>
                 </div>
 
                 <div className="ticket-path-row">
                     <div>
                         <div className="ticket-path-title">
-                            MOW – HKT
+                            {`${segments[0].origin}`} – {`${segments[0].destination}`}
                         </div>
                         <div>
-                            10:45 – 08:00
+                            {`${dateAway.getHours()}:${dateAway.getMinutes()} 
+                            - ${dateAwayDuration.getHours()}:${dateAwayDuration.getMinutes()}`}
                         </div>
                     </div>
                     <div>
@@ -73,15 +34,15 @@ export default class Ticket extends Component {
                             В пути
                         </div>
                         <div>
-                            21ч 15м
+                            {`${Math.floor(segments[0].duration / 60)}ч ${segments[0].duration % 60 > 10 ? segments[0].duration % 60 : '0' + segments[0].duration % 60}м`}
                         </div>
                     </div>
                     <div>
                         <div className="ticket-path-title">
-                            2 пересадки
+                            {segments[0].stops.length} пересадки
                         </div>
                         <div>
-                            HKG, JNB
+                            {segments[0].stops}
                         </div>
                     </div>
                 </div>
