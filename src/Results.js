@@ -60,7 +60,7 @@ export default class Results extends Component {
                     segments={this.state.tickets[i].segments}
                 />)
             }
-            console.log(this.state.tickets[0])
+            //console.log(this.state.tickets)
         }
 
 
