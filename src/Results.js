@@ -9,7 +9,10 @@ export default class Results extends Component {
         this.state = {
             searchId: null,
             tickets: [],
-            stop: false
+            stop: false,
+            ticketsArr: [],
+            start: 0,
+            end: 10
         }
     }
 
@@ -44,15 +47,25 @@ export default class Results extends Component {
                 this.getTickets();
             }
 
+            this.loadTickets(); //вызвали 10 билетов
         } catch (e) {
             this.getTickets();
         }
     }
 
-    render() {
+    loadTickets = n => {
         let ticketsArr = [];
         if (this.state.tickets.length > 0) {
-            for (let i = 0; i < 10; i++) {
+            
+            if (n) {
+                this.setState({
+                    end: this.state.end+=n
+                });
+            }
+
+            let tickets = this.state.tickets.slice(this.state.start, this.state.end);
+            //console.log(tickets);
+            for (let i = 0; i < tickets.length; i++) {
                 ticketsArr.push(<Ticket
                     key={i}
                     price={this.state.tickets[i].price}
@@ -60,15 +73,23 @@ export default class Results extends Component {
                     segments={this.state.tickets[i].segments}
                 />)
             }
-            //console.log(this.state.tickets)
         }
+        console.log(this.state.end)
+        this.setState({
+            ticketsArr: ticketsArr
+        });
 
+    };
+
+    render() {
 
         return (
             <div className="col-xl-7">
                 <FilterPrice />
-                {ticketsArr}
-                <Load/>
+                {this.state.ticketsArr}
+                <Load
+                    loadTickets={this.loadTickets}
+                />
             </div>
         )
     }

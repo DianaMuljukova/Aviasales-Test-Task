@@ -1,8 +1,14 @@
 import React from 'react';
 
-const Load = () => {
+const Load = props => {
+
+    const loadAnotherTen = () => {
+        props.loadTickets(10);
+    };
+
     return (
-        <div className="load">
+
+        <div className="load" onClick={loadAnotherTen}>
             Показать еще 10 билетов
         </div>
     )

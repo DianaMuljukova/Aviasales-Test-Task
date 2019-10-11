@@ -19,8 +19,8 @@ class Segment extends Component {
                         {`${item.origin}`} – {`${item.destination}`}
                     </div>
                     <div>
-                        {`${dateAway.getHours()}:${dateAway.getMinutes()} 
-                            - ${dateAwayDuration.getHours()}:${dateAwayDuration.getMinutes()}`}
+                        {`${dateAway.getHours() > 9 ? dateAway.getHours() : '0' + dateAway.getHours()}:${dateAway.getMinutes() > 9 ? dateAway.getMinutes() : '0' + dateAway.getMinutes()} 
+                            - ${dateAwayDuration.getHours() > 9 ? dateAwayDuration.getHours() : '0' + dateAwayDuration.getHours()}:${dateAwayDuration.getMinutes() > 9 ? dateAwayDuration.getMinutes() : '0' + dateAwayDuration.getMinutes()}`}
                     </div>
                 </div>
                 <div>
@@ -28,7 +28,7 @@ class Segment extends Component {
                         В пути
                     </div>
                     <div>
-                        {`${Math.floor(item.duration / 60)}ч ${item.duration % 60 > 10 ? item.duration % 60 : '0' + item.duration % 60}м`}
+                        {`${Math.floor(item.duration / 60)}ч ${item.duration % 60 > 9 ? item.duration % 60 : '0' + item.duration % 60}м`}
                     </div>
                 </div>
                 <div>
@@ -65,7 +65,7 @@ class Segment extends Component {
 
     render() {
         const {segments} = this.props;
-        console.log(segments);
+        //console.log(segments);
         return (
             segments.map((item, i) => this.renderSegments(item, i))
         )
