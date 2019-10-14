@@ -2,16 +2,16 @@ import React, {Component} from 'react';
 import FilterPrice from "./FilterPrice";
 import Ticket from "./Ticket";
 import Load from "./Load";
+import {connect} from 'react-redux';
 
-export default class Results extends Component {
+
+class Results extends Component {
     constructor(props) {
         super(props);
         this.state = {
             searchId: null,
             tickets: [],
             stop: false,
-            ticketsArr: [],
-            start: 0,
             end: 10
         }
     }
@@ -47,46 +47,40 @@ export default class Results extends Component {
                 this.getTickets();
             }
 
-            this.loadTickets(); //вызвали 10 билетов
         } catch (e) {
             this.getTickets();
         }
     }
 
     loadTickets = n => {
-        let ticketsArr = [];
         if (this.state.tickets.length > 0) {
-
-            if (n) {
-                this.setState({
-                    end: this.state.end+=n
-                });
-            }
-
-            let tickets = this.state.tickets.slice(this.state.start, this.state.end);
-            //console.log(tickets);
-            for (let i = 0; i < tickets.length; i++) {
-                ticketsArr.push(<Ticket
-                    key={i}
-                    price={this.state.tickets[i].price}
-                    carrier={this.state.tickets[i].carrier}
-                    segments={this.state.tickets[i].segments}
-                />)
-            }
+            this.setState({
+                end: this.state.end += n
+            });
         }
-        console.log(this.state.end)
-        this.setState({
-            ticketsArr: ticketsArr
-        });
+    };
 
+    renderTickets = () => {
+        let tickets = this.state.tickets.slice(0, this.state.end),
+            ticketsArr = [];
+        //console.log(tickets);
+        for (let i = 0; i < tickets.length; i++) {
+            ticketsArr.push(<Ticket
+                key={i}
+                price={this.state.tickets[i].price}
+                carrier={this.state.tickets[i].carrier}
+                segments={this.state.tickets[i].segments}
+            />)
+        }
+        return ticketsArr;
     };
 
     render() {
-
+       // console.log(this.state);
         return (
             <div className="col-xl-7">
                 <FilterPrice />
-                {this.state.ticketsArr}
+                {this.renderTickets()}
                 <Load
                     loadTickets={this.loadTickets}
                 />
@@ -94,3 +88,13 @@ export default class Results extends Component {
         )
     }
 }
+
+const mapStateToProps = state => {
+    return {
+        stopsCount: state.stopsCount
+    }
+};
+
+
+
+export default connect(mapStateToProps)(Results)
