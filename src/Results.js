@@ -56,7 +56,7 @@ export default class Results extends Component {
     loadTickets = n => {
         let ticketsArr = [];
         if (this.state.tickets.length > 0) {
-            
+
             if (n) {
                 this.setState({
                     end: this.state.end+=n
