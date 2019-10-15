@@ -60,23 +60,41 @@ class Results extends Component {
         }
     };
 
+    filterArr = (item) => {
+        //console.log(item.segments[0].stops.length)
+        console.log(this.props.stopsCount);
+        if (this.props.stopsCount.length < 1 || this.props.stopsCount.indexOf(-1) !== -1) {
+            return true;
+        }
+
+        if (this.props.stopsCount.indexOf(item.segments[0].stops.length) > -1
+            || this.props.stopsCount.indexOf(item.segments[1].stops.length) > -1) {
+            return true;
+        }
+    };
+
     renderTickets = () => {
-        let tickets = this.state.tickets.slice(0, this.state.end),
-            ticketsArr = [];
-        //console.log(tickets);
+        let tickets = this.state.tickets
+                .slice(0, 100)
+                .filter(this.filterArr)
+                .slice(0, this.state.end),
+           ticketsArr = [];
+
         for (let i = 0; i < tickets.length; i++) {
             ticketsArr.push(<Ticket
-                key={i}
-                price={this.state.tickets[i].price}
-                carrier={this.state.tickets[i].carrier}
-                segments={this.state.tickets[i].segments}
+                key={tickets[i].price}
+                price={tickets[i].price}
+                carrier={tickets[i].carrier}
+                segments={tickets[i].segments}
             />)
         }
+
         return ticketsArr;
     };
 
     render() {
-       // console.log(this.state);
+        console.log(this.props.stopsCount);
+
         return (
             <div className="col-xl-7">
                 <FilterPrice />

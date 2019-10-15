@@ -20,6 +20,7 @@ class Filter extends Component {
     }
 
     render() {
+
         return (
             <div className="col-xl-3 filter-block">
                 <h1>
