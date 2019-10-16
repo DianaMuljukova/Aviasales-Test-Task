@@ -4,3 +4,10 @@ export const changeFilter = value => {
         payload: value
     }
 };
+
+export const changeStatus = i => {
+    return {
+        type: 'CHANGE_STATUS',
+        payload: i
+    }
+}

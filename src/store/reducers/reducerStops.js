@@ -2,7 +2,7 @@ let initialState = {
     stopsCount: []
 };
 
-export const filterReducer = (state = initialState, action) => {
+export const reducerStops = (state = initialState, action) => {
     //console.log(state);
     switch (action.type) {
         case 'CHANGE_FILTER':

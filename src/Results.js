@@ -3,6 +3,7 @@ import FilterPrice from "./FilterPrice";
 import Ticket from "./Ticket";
 import Load from "./Load";
 import {connect} from 'react-redux';
+import {sortArr, sortQuickArr} from './utils/filterPrice';
 
 
 class Results extends Component {
@@ -61,8 +62,6 @@ class Results extends Component {
     };
 
     filterArr = (item) => {
-        //console.log(item.segments[0].stops.length)
-        console.log(this.props.stopsCount);
         if (this.props.stopsCount.length < 1 || this.props.stopsCount.indexOf(-1) !== -1) {
             return true;
         }
@@ -74,15 +73,16 @@ class Results extends Component {
     };
 
     renderTickets = () => {
-        let tickets = this.state.tickets
-                .slice(0, 100)
+        let tickets = this.props.active === 0 ? sortArr(this.state.tickets) : sortQuickArr(this.state.tickets);
+
+        tickets = tickets
                 .filter(this.filterArr)
-                .slice(0, this.state.end),
-           ticketsArr = [];
+                .slice(0, this.state.end);
+          let ticketsArr = [];
 
         for (let i = 0; i < tickets.length; i++) {
             ticketsArr.push(<Ticket
-                key={tickets[i].price}
+                key={Math.random() + tickets[i].price}
                 price={tickets[i].price}
                 carrier={tickets[i].carrier}
                 segments={tickets[i].segments}
@@ -93,7 +93,7 @@ class Results extends Component {
     };
 
     render() {
-        console.log(this.props.stopsCount);
+
 
         return (
             <div className="col-xl-7">
@@ -109,7 +109,10 @@ class Results extends Component {
 
 const mapStateToProps = state => {
     return {
-        stopsCount: state.stopsCount
+        stopsCount: state.filterStops.stopsCount,
+        sortArrCall: state.filterPrice.sortArrCall,
+        quickArrCall: state.filterPrice.quickArrCall,
+        active: state.filterPrice.active
     }
 };
 

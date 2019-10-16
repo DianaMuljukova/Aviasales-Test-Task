@@ -1,30 +1,39 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux'
 
-export default class FilterPrice extends Component {
+class FilterPrice extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            active: 0
-        }
     }
 
-    changeStatus = (i) => {
-       this.setState({
-           active: i
-       })
-    };
+
 
     render() {
+        console.log(this.props);
         return (
             <div className="filter-price">
-                {['САМЫЙ ДЕШЕВЫЙ', 'САМЫЙ БЫСТРЫЙ'].map((item, i) =>
-                    <div className={`filter-price-item ${i === this.state.active ? 'active' : ''}`} onClick={() => this.changeStatus(i)} key={i}>
+                {['САМЫЙ ДЕШЕВЫЙ', 'САМЫЙ БЫСТРЫЙ'].map((item, index) =>
+                    <div className={`filter-price-item ${index === this.props.active ? 'active' : ''}`} onClick={() => this.props.sortArr(index)} key={index}>
                         {item}
                     </div>
                 )}
             </div>
         )
     }
-
 }
+
+const mapStateToProps = state => {
+    return {
+        active: state.filterPrice.active,
+        sortArrCall: state.filterPrice.sortArrCall
+    }
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        sortArr: (index) => dispatch({type: 'SORT_ARR', payload: index})
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(FilterPrice);
