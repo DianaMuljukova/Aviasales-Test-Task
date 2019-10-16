@@ -1,7 +1,26 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import {changeFilter} from './store/actions/filter';
 
-export default class Filter extends Component {
+class Filter extends Component {
+
+    renderFilter (item, i) {
+        return (
+            <li className="filter-item" key={i}>
+                <label>
+                    <input type="checkbox"
+                           className="filter-input"
+                           value={item.value}
+                           onChange={() => this.props.changeFilter(item.value)} />
+                    <span className="checkmark"></span>
+                    <span>{item.label}</span>
+                </label>
+            </li>
+        )
+    }
+
     render() {
+
         return (
             <div className="col-xl-3 filter-block">
                 <h1>
@@ -9,48 +28,46 @@ export default class Filter extends Component {
                 </h1>
 
                 <ul className="filter">
-                    <li className="filter-item">
-                        <label>
-                            <input type="checkbox" className="filter-input" />
-                            <span className="checkmark"></span>
-                            <span>Все</span>
-                        </label>
-                    </li>
-
-                    <li className="filter-item">
-                        <label>
-                            <input type="checkbox" className="filter-input" />
-                            <span className="checkmark"></span>
-                            <span>Без пересадок</span>
-                        </label>
-                    </li>
-
-                    <li className="filter-item">
-                        <label>
-                            <input type="checkbox" className="filter-input" />
-                            <span className="checkmark"></span>
-                            <span>1 пересадка</span>
-                        </label>
-                    </li>
-
-                    <li className="filter-item">
-                        <label>
-                            <input type="checkbox" className="filter-input" />
-                            <span className="checkmark"></span>
-                            <span>2 пересадки</span>
-                        </label>
-                    </li>
-
-                    <li className="filter-item">
-                        <label>
-                            <input type="checkbox" className="filter-input" />
-                            <span className="checkmark"></span>
-                            <span>3 пересадки</span>
-                        </label>
-                    </li>
+                    {Filters.map((item, i) => this.renderFilter(item, i))}
                 </ul>
-
             </div>
         )
     }
 }
+
+const Filters = [
+    {
+      label: 'Все',
+      value: -1
+    },
+    {
+        label: 'Без пересадок',
+        value: 0
+    },
+    {
+        label: '1 пересадка',
+        value: 1
+    },
+    {
+        label: '2 пересадки',
+        value: 2
+    },
+    {
+        label: '3 пересадки',
+        value: 3
+    }
+];
+
+const mapStateToProps = state => {
+    return {
+        stopsCount: state.stopsCount
+    }
+};
+
+const mapDispatchToProps = dispatch =>{
+    return {
+        changeFilter: value => dispatch(changeFilter(value))
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Filter);

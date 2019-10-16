@@ -2,16 +2,17 @@ import React, {Component} from 'react';
 import FilterPrice from "./FilterPrice";
 import Ticket from "./Ticket";
 import Load from "./Load";
+import {connect} from 'react-redux';
+import {sortArr, sortQuickArr} from './utils/filterPrice';
 
-export default class Results extends Component {
+
+class Results extends Component {
     constructor(props) {
         super(props);
         this.state = {
             searchId: null,
             tickets: [],
             stop: false,
-            ticketsArr: [],
-            start: 0,
             end: 10
         }
     }
@@ -47,46 +48,57 @@ export default class Results extends Component {
                 this.getTickets();
             }
 
-            this.loadTickets(); //вызвали 10 билетов
         } catch (e) {
             this.getTickets();
         }
     }
 
     loadTickets = n => {
-        let ticketsArr = [];
         if (this.state.tickets.length > 0) {
-            
-            if (n) {
-                this.setState({
-                    end: this.state.end+=n
-                });
-            }
-
-            let tickets = this.state.tickets.slice(this.state.start, this.state.end);
-            //console.log(tickets);
-            for (let i = 0; i < tickets.length; i++) {
-                ticketsArr.push(<Ticket
-                    key={i}
-                    price={this.state.tickets[i].price}
-                    carrier={this.state.tickets[i].carrier}
-                    segments={this.state.tickets[i].segments}
-                />)
-            }
+            this.setState({
+                end: this.state.end += n
+            });
         }
-        console.log(this.state.end)
-        this.setState({
-            ticketsArr: ticketsArr
-        });
+    };
 
+    filterArr = (item) => {
+        if (this.props.stopsCount.length < 1 || this.props.stopsCount.indexOf(-1) !== -1) {
+            return true;
+        }
+
+        if (this.props.stopsCount.indexOf(item.segments[0].stops.length) > -1
+            || this.props.stopsCount.indexOf(item.segments[1].stops.length) > -1) {
+            return true;
+        }
+    };
+
+    renderTickets = () => {
+        let tickets = this.props.active === 0 ? sortArr(this.state.tickets) : sortQuickArr(this.state.tickets);
+
+        tickets = tickets
+                .filter(this.filterArr)
+                .slice(0, this.state.end);
+          let ticketsArr = [];
+
+        for (let i = 0; i < tickets.length; i++) {
+            ticketsArr.push(<Ticket
+                key={Math.random() + tickets[i].price}
+                price={tickets[i].price}
+                carrier={tickets[i].carrier}
+                segments={tickets[i].segments}
+            />)
+        }
+
+        return ticketsArr;
     };
 
     render() {
 
+
         return (
             <div className="col-xl-7">
                 <FilterPrice />
-                {this.state.ticketsArr}
+                {this.renderTickets()}
                 <Load
                     loadTickets={this.loadTickets}
                 />
@@ -94,3 +106,16 @@ export default class Results extends Component {
         )
     }
 }
+
+const mapStateToProps = state => {
+    return {
+        stopsCount: state.filterStops.stopsCount,
+        sortArrCall: state.filterPrice.sortArrCall,
+        quickArrCall: state.filterPrice.quickArrCall,
+        active: state.filterPrice.active
+    }
+};
+
+
+
+export default connect(mapStateToProps)(Results)
