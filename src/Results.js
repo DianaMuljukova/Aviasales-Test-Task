@@ -96,7 +96,7 @@ class Results extends Component {
 
 
         return (
-            <div className="col-xl-7">
+            <div className="col-xl-7 col-md-7 col-7 result">
                 <FilterPrice />
                 {this.renderTickets()}
                 <Load

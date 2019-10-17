@@ -22,7 +22,7 @@ class Filter extends Component {
     render() {
 
         return (
-            <div className="col-xl-3 filter-block">
+            <div className="col-xl-3 col-md-3 col-3 filter-block">
                 <h1>
                     Количество пересадок
                 </h1>
