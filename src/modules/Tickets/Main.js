@@ -1,5 +1,5 @@
 import React from 'react';
-import Filter from "./Filter";
+import Filter from "../Filters/Filter";
 import Results from "./Results";
 
 const Main = () => {

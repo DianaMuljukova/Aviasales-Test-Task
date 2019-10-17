@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import FilterPrice from "./FilterPrice";
-import Ticket from "./Ticket";
+import Ticket from "./Ticket/Ticket";
 import Load from "./Load";
 import {connect} from 'react-redux';
-import {sortArr, sortQuickArr} from './utils/filterPrice';
+import {sortArr, sortQuickArr} from '../../utils/filterPrice';
 
 
 class Results extends Component {
@@ -56,7 +56,7 @@ class Results extends Component {
     loadTickets = n => {
         if (this.state.tickets.length > 0) {
             this.setState({
-                end: this.state.end += n
+                end: this.state.end + n
             });
         }
     };

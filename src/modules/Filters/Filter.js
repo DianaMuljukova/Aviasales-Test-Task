@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {changeFilter} from './store/actions/filter';
+import {changeFilter} from '../../store/actions/filter';
 
 class Filter extends Component {
 

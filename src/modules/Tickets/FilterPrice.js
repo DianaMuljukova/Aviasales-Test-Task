@@ -3,12 +3,6 @@ import {connect} from 'react-redux'
 
 class FilterPrice extends Component {
 
-    constructor(props) {
-        super(props);
-    }
-
-
-
     render() {
         console.log(this.props);
         return (
