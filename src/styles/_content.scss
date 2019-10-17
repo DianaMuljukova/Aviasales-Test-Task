@@ -2,4 +2,14 @@
   justify-content: center;
   align-items: flex-start;
   padding-bottom: 30px;
+
+  @include small {
+    flex-direction: column;
+  }
+}
+
+.result {
+  @include small {
+    width: 100%;
+  }
 }

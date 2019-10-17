@@ -10,6 +10,7 @@
   @for $i from 1 through 12 {
     .col-md-#{$i} {
       width: 100% / 12 * $i;
+      padding: 0 20px;
     }
   }
 }

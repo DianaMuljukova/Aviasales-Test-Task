@@ -3,16 +3,32 @@
   padding: 0;
   list-style: none;
 
+  @include small {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    height: 130px;
+  }
+
   &-block {
 
     background: #FFFFFF;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     border-radius: 5px;
 
+    @include small {
+      width: 100%;
+      margin-bottom: 20px;
+    }
+
     h1 {
       font-size: 12px;
       text-transform: uppercase;
       margin: 20px 0 20px 20px;
+
+      @include medium {
+        margin: 20px 0 20px 0;
+      }
     }
   }
 
@@ -41,6 +57,10 @@
 
   &-item {
     margin: 0 0 20px 20px;
+
+    @include medium {
+      margin: 0 0 20px 0;
+    }
   }
 
   .checkmark {
